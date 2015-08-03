@@ -1,0 +1,9 @@
+//
+   Created by clc on 2015/7/26.
+
+extends layout
+block content
+   p 查询结果：
+   for obj in result
+      if obj._score!=null
+         li="标题："+obj._source.title+"-----------内容："+obj._source.content+"--------分数："+ obj._score
