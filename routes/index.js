@@ -1,18 +1,30 @@
 var express = require('express');
 var router = express.Router();
+var setting = require('../index-setting.json')
 var elasticsearch = require('elasticsearch');
+var mongoose = require('mongoose');
 //var nodejieba = require("nodejieba");
 var client = new elasticsearch.Client({                      //elasticsearch服务端
-  host: '192.168.0.100:9200',
+  host: setting.elasticsearch,
   log: 'trace'
 });
 
+mongoose.connect("mongodb://"+setting.mongo+"/clc");
+
+var Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
+
+var alarm = new Schema({
+    titile    : String,
+    content     : String,
+    keyword      : String
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {      //查询所有数据库所有数据
     client.search({
-        index:'indextest',
-        type:'typetest',
+        index:'alarms',
+        type:'tbAlarms',
         body:{
             query:{
                 "match_all": {}
@@ -30,8 +42,8 @@ router.get('/', function(req, res, next) {      //查询所有数据库所有数
 router.post('/search',function(req,res){                //搜索，使用elasticsearch 中文分词器：ik
   var searchvalue= req.body.searchvalue;
   client.search({
-          index:'indextest',
-          type:'typetest',
+          index:'alarms',
+          type:'tbAlarms',
           analyzer:"ik",
           body:{
               query:{
@@ -63,23 +75,24 @@ router.post('/search',function(req,res){                //搜索，使用elastic
 
 });
 
-//router.post('/add',function(req,res){
-//    client.create({
-//        index: 'testindex',
-//        type: 'testtype',
-//        body: {
-//            title: req.body.title,
-//            content: req.body.content
-//        }
-//    },function(error,response){
-//        if(error){
-//            console.log(error.message);
-//        }else{
-//            res.render('success');
-//        }
-//        //...
-//    })
-//})
+router.post('/add',function(req,res){
+    //client.create({
+    //    index: 'alarms',
+    //    type: 'tbAlarms',
+    //    body: {
+    //        title: req.body.title,
+    //        content: req.body.content
+    //    }
+    //},function(error,response){
+    //    if(error){
+    //        console.log(error.message);
+    //    }else{
+    //        res.render('success');
+    //    }
+    //    //...
+    //})
+
+})
 
 
 module.exports = router;
