@@ -2,35 +2,35 @@ extends layout
 
 block content
   h4 云联讯搜索
-  h5 添加数据
-  form(action="/add" method="post")
-    lable title:
-    input(type="text" name="title" id="title" required="" )
-    br
-    br
-    lable content:
-    input(type="text" name="content" id="content" required="" )
-    br
-    br
-    lable keyword:
-    input(type="text" name="keyword" id="keyword" required="" )
-    br
-    br
-    input(type="submit" name="action" )
-
-  br
-  br
-  br
-  form(action="/search" method="post")
-    lable 输入搜索内容：
-    input(type="text" name="searchvalue" id="searchvalue" required="")
-    br
-    br
-    input(type="submit" name="action" )
-  br
-  br
-  br
-  h4 所有数据
-  for obj in all
-    if obj._score != null
-      li="标题：" + obj._source.title + "--------内容：" + obj._source.content+"--------关键字：" + obj._source.keyword
+  //h5 添加数据
+  //form(action="/add" method="post")
+  //  lable title:
+  //  input(type="text" name="title" id="title" required="" )
+  //  br
+  //  br
+  //  lable content:
+  //  input(type="text" name="content" id="content" required="" )
+  //  br
+  //  br
+  //  lable keyword:
+  //  input(type="text" name="keyword" id="keyword" required="" )
+  //  br
+  //  br
+  //  input(type="submit" name="action" )
+  //
+  //br
+  //br
+  //br
+  //form(action="/search" method="post")
+  //  lable 输入搜索内容：
+  //  input(type="text" name="searchvalue" id="searchvalue" required="")
+  //  br
+  //  br
+  //  input(type="submit" name="action" )
+  //br
+  //br
+  //br
+  //h4 所有数据
+  //for obj in all
+  //  if obj._score != null
+  //    li="标题：" + obj._source.title + "--------内容：" + obj._source.content+"--------关键字：" + obj._source.keyword

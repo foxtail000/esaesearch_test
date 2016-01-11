@@ -22,22 +22,22 @@ var tbalarms = mongoose.model('tbalarms', {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    client.search({
-        index:'alarms',
-        type:'tbalarms',
-        body:{
-            query:{
-                "match_all": {}
-            }
-        }
-    }).then(function(body){
-        var hits=body.hits.hits;
-            console.log(hits)
-            res.render('index',{ all:hits} )
-    }, function (error) {
-        console.log(error.message);
-    });
-    //res.render('index' )
+    //client.search({
+    //    index:'alarms',
+    //    type:'tbalarms',
+    //    body:{
+    //        query:{
+    //            "match_all": {}
+    //        }
+    //    }
+    //}).then(function(body){
+    //    var hits=body.hits.hits;
+    //        console.log(hits)
+    //        res.render('index',{ all:hits} )
+    //}, function (error) {
+    //    console.log(error.message);
+    //});
+    res.render('index' )
 });
 
 router.post('/search',function(req,res){                //搜索，使用elasticsearch 中文分词器：ik
@@ -89,22 +89,6 @@ router.post('/search',function(req,res){                //搜索，使用elastic
 });
 
 router.post('/add',function(req,res){
-    //client.create({
-    //    index: 'alarms',
-    //    type: 'tbAlarms',
-    //    body: {
-    //        title: req.body.title,
-    //        content: req.body.content
-    //    }
-    //},function(error,response){
-    //    if(error){
-    //        console.log(error.message);
-    //    }else{
-    //        res.render('success');
-    //    }
-    //    //...
-    //})
-    console.log(req.body);
     var kitty = new tbalarms({
         title    : req.body.title,
         content     : req.body.content,
@@ -113,11 +97,11 @@ router.post('/add',function(req,res){
     });
     kitty.save(function (err) {
         if (err){
-            console.log('meow');
-            res.json("err")
+            console.log('err');
+            res.json("1")
         }
         else
-            res.json("seccuse")
+            res.json("0")
 
     });
 })
