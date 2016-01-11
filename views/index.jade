@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  h4 云联讯搜索demo
+  h4 云联讯搜索
   h5 添加数据
   form(action="/add" method="post")
     lable title:
@@ -10,6 +10,10 @@ block content
     br
     lable content:
     input(type="text" name="content" id="content" required="" )
+    br
+    br
+    lable keyword:
+    input(type="text" name="keyword" id="keyword" required="" )
     br
     br
     input(type="submit" name="action" )
@@ -29,4 +33,4 @@ block content
   h4 所有数据
   for obj in all
     if obj._score != null
-      li="标题：" + obj._source.title + "--------内容：" + obj._source.content
+      li="标题：" + obj._source.title + "--------内容：" + obj._source.content+"--------关键字：" + obj._source.keyword

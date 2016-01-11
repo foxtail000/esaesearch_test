@@ -11,20 +11,20 @@ var client = new elasticsearch.Client({                      //elasticsearch服�
 
 mongoose.connect("mongodb://"+setting.mongo+"/clc");
 
-var Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
 
-var alarm = new Schema({
-    titile    : String,
+var tbalarms = mongoose.model('tbalarms', {
+    title    : String,
     content     : String,
-    keyword      : String
+    keyword      : String,
+    createtime  : String
 });
 
+
 /* GET home page. */
-router.get('/', function(req, res, next) {      //查询所有数据库所有数据
+router.get('/', function(req, res, next) {
     client.search({
         index:'alarms',
-        type:'tbAlarms',
+        type:'tbalarms',
         body:{
             query:{
                 "match_all": {}
@@ -32,28 +32,41 @@ router.get('/', function(req, res, next) {      //查询所有数据库所有数
         }
     }).then(function(body){
         var hits=body.hits.hits;
+            console.log(hits)
             res.render('index',{ all:hits} )
     }, function (error) {
         console.log(error.message);
     });
-
+    //res.render('index' )
 });
 
 router.post('/search',function(req,res){                //搜索，使用elasticsearch 中文分词器：ik
   var searchvalue= req.body.searchvalue;
   client.search({
           index:'alarms',
-          type:'tbAlarms',
+          type:'tbalarms',
           analyzer:"ik",
           body:{
               query:{
                   bool: {
                       should: [
                           {match: {
-                              title: searchvalue
+                              keyword:{
+                                  query:searchvalue,
+                                  boost:3
+                              }
                           }},
                           {match: {
-                              content: searchvalue
+                              title:{
+                                  query:searchvalue,
+                                  boost:1
+                              }
+                          }},
+                          {match: {
+                              content:{
+                                  query:searchvalue,
+                                  boost:1
+                              }
                           }}
                       ]
                   }
@@ -63,10 +76,10 @@ router.post('/search',function(req,res){                //搜索，使用elastic
   ).then(function(body){
         var hits=body.hits.hits;
         if(hits.length!=0){
-          res.render('resultview',{ result:hits} )
+          res.json(hits)
         }
         else{
-          res.render('resultview',{ result:"未找到相关"} )
+          res.json("")
         }
 
       }, function (error) {
@@ -91,7 +104,22 @@ router.post('/add',function(req,res){
     //    }
     //    //...
     //})
+    console.log(req.body);
+    var kitty = new tbalarms({
+        title    : req.body.title,
+        content     : req.body.content,
+        keyword      : req.body.keyword,
+        createtime  : new Date()
+    });
+    kitty.save(function (err) {
+        if (err){
+            console.log('meow');
+            res.json("err")
+        }
+        else
+            res.json("seccuse")
 
+    });
 })
 
 
