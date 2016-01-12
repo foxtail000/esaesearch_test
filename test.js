@@ -6,11 +6,13 @@ setting = require('./index-setting.json');
 request = require('request');
 
 postlist = {
-  searchvalue: '公司'
+  index: "test",
+  type: "test",
+  searchvalue: '辅导费'
 };
 
 request.post({
-  url: "http://localhost:3000/search",
+  url: "http://192.168.0.132:3000/search",
   form: postlist
 }, function(err, httpResponse, body) {
   if (err) {

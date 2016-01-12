@@ -3,11 +3,13 @@ request = require 'request'
 
 #添加数据 api
 #postlist =
-#  title : "测试"
-#  content : "测试内容"
-#  keyword : "测试"
+#  index:"test"
+#  type:"test"
+#  title : "辅导费"
+#  content : "这是测试内容"
+#  keyword : "这是关键字"
 #request.post {
-#  url: "http://localhost:3000/add"
+#  url: "http://192.168.0.132:3000/add"
 #  form: postlist
 #}, (err, httpResponse, body) ->
 #  if err
@@ -17,9 +19,11 @@ request = require 'request'
 
 #搜索api
 postlist =
-  searchvalue : '公司'
+  index:"test"
+  type:"test"
+  searchvalue : '辅导费'
 request.post {
-  url: "http://localhost:3000/search"
+  url: "http://192.168.0.132:3000/search"
   form: postlist
 }, (err, httpResponse, body) ->
   if err
